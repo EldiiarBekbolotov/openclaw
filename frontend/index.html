@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hack United Sponsorship Outreach Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Hack United Sponsorship Outreach</h1>
+        <p>AI-Powered Nonprofit Sponsorship Management</p>
+    </header>
+
+    <main>
+        <div class="dashboard-grid">
+            <!-- Campaign Statistics -->
+            <section class="stats-section">
+                <h2>Campaign Performance</h2>
+                <div class="stats-grid" id="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Leads</h3>
+                        <div class="stat-value" id="total-leads">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Emails Sent</h3>
+                        <div class="stat-value" id="emails-sent">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Reply Rate</h3>
+                        <div class="stat-value" id="reply-rate">-%</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Avg Score</h3>
+                        <div class="stat-value" id="avg-score">-/10</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Lead Form -->
+            <section class="form-section">
+                <h2>Add Manual Lead</h2>
+                <form id="add-lead-form">
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company *</label>
+                        <input type="text" id="company" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="industry">Industry</label>
+                        <input type="text" id="industry" placeholder="e.g., Technology, Finance">
+                    </div>
+                    <div class="form-group">
+                        <label for="website">Website</label>
+                        <input type="url" id="website" placeholder="https://company.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" placeholder="Brief company description"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Lead</button>
+                </form>
+                <div id="form-message"></div>
+            </section>
+
+            <!-- Leads List -->
+            <section class="leads-section">
+                <h2>Recent Leads</h2>
+                <div class="leads-controls">
+                    <select id="status-filter">
+                        <option value="">All Statuses</option>
+                        <option value="manual">Manual</option>
+                        <option value="sent">Sent</option>
+                        <option value="replied">Replied</option>
+                        <option value="bounced">Bounced</option>
+                    </select>
+                    <button id="refresh-leads" class="btn-secondary">Refresh</button>
+                </div>
+                <div class="leads-table-container">
+                    <table id="leads-table">
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Email</th>
+                                <th>Industry</th>
+                                <th>Score</th>
+                                <th>Status</th>
+                                <th>Sent Date</th>
+                                <th>Reply</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leads-tbody">
+                            <tr>
+                                <td colspan="7" class="loading">Loading leads...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Activity Log -->
+            <section class="activity-section">
+                <h2>Recent Activity</h2>
+                <div id="activity-log" class="activity-log">
+                    <div class="activity-item loading">Loading activity...</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Hack United. Built with AI for nonprofit impact.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

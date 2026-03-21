@@ -1,0 +1,15 @@
+# Backend dependencies for Hack United Sponsorship Outreach System
+langgraph==0.1.19
+langchain==0.2.5
+langchain-groq==0.1.5
+gspread==6.1.2
+google-auth==2.29.0
+google-auth-oauthlib==1.2.0
+requests==2.31.0
+python-dotenv==1.0.0
+fastapi==0.111.0
+uvicorn==0.29.0
+pydantic==2.7.1
+beautifulsoup4==4.12.3
+lxml==5.2.1
+schedule==1.2.1
