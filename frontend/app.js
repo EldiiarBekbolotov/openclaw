@@ -6,7 +6,7 @@
 // API base URL - adjust for your Netlify deployment
 const API_BASE =
   window.location.hostname === "localhost"
-    ? "http://localhost:8888/.netlify/functions"
+    ? "http://localhost:8000"
     : "/.netlify/functions";
 
 // DOM elements
@@ -186,11 +186,11 @@ async function handleAddLead(event) {
   // Get form data
   const formData = new FormData(event.target);
   const leadData = {
-    email: formData.get("email").trim(),
-    company: formData.get("company").trim(),
-    industry: formData.get("industry").trim(),
-    website: formData.get("website").trim(),
-    description: formData.get("description").trim(),
+    email: (formData.get("email") || "").trim(),
+    company: (formData.get("company") || "").trim(),
+    industry: (formData.get("industry") || "").trim(),
+    website: (formData.get("website") || "").trim(),
+    description: (formData.get("description") || "").trim(),
     source: "Manual entry",
   };
 
