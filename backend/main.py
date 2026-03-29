@@ -27,9 +27,9 @@ sponsor@hackathon2024.com,Hackathon Inc,Event Management,Scraped from hackathon.
 """
 import logging
 import asyncio
-from typing import Dict, Any, TypedDict, List
+from typing import Dict, Any, TypedDict, List, Optional
 from datetime import datetime
-from langgraph import StateGraph, END
+from langgraph.graph import StateGraph, END
 from backend.config import config
 from backend.agents.scorer import LeadScorer, LeadData, ScoredLead
 from backend.agents.email_generator import EmailGenerator, GeneratedEmail

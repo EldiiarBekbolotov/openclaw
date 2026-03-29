@@ -5,6 +5,9 @@
   # Directory to publish
   publish = "frontend"
 
+  # Use Python 3.11 which has prebuilt wheels
+  environment = { PYTHON_VERSION = "3.11" }
+
 [functions]
   # Directory containing Netlify Functions
   directory = "netlify/functions"
