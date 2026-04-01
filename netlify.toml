@@ -8,15 +8,8 @@
   # Use Python 3.11 which has prebuilt wheels
   environment = { PYTHON_VERSION = "3.11" }
 
-[functions]
-  # Directory containing Netlify Functions
-  directory = "netlify/functions"
-
-[[redirects]]
-  # Redirect all API calls to Netlify Functions
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+# No Netlify functions used in Railway-native architecture.
+# Frontend talks directly to Railway backend, configured in frontend/app.js.
 
 [[headers]]
   # Security headers for all routes

@@ -104,17 +104,15 @@ python main.py
 
 This should run the outreach campaign and log results.
 
-#### Test Netlify Functions Locally
+#### Test Backend Locally
 
 ```bash
-# Install Netlify CLI
-npm install -g netlify-cli
-
-# Start local development server
-netlify dev
+# Install dependencies and run FastAPI server
+pip install -r requirements.txt
+uvicorn backend.api:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Visit `http://localhost:8888` to see the frontend.
+Open `http://localhost:8000/docs` to verify the API endpoints.
 
 ## 4. Deployment
 

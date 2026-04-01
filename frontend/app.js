@@ -3,11 +3,12 @@
  * Handles API calls, UI updates, and user interactions
  */
 
-// API base URL - adjust for your Netlify deployment
+// API base URL - Railway backend for production, localhost for development
+const RAILWAY_API_BASE = "https://<your-railway-service>.up.railway.app";
 const API_BASE =
   window.location.hostname === "localhost"
     ? "http://localhost:8000"
-    : "/.netlify/functions";
+    : RAILWAY_API_BASE;
 
 // DOM elements
 const elements = {
