@@ -8,6 +8,20 @@ from typing import Dict, Any
 import gspread
 from google.oauth2.service_account import Credentials
 
+
+def load_google_credentials():
+    creds_json = os.environ.get('GOOGLE_SHEETS_CREDENTIALS_JSON')
+    if creds_json:
+        return Credentials.from_service_account_info(
+            json.loads(creds_json),
+            scopes=['https://www.googleapis.com/auth/spreadsheets']
+        )
+
+    return Credentials.from_service_account_file(
+        os.environ.get('GOOGLE_SHEETS_CREDENTIALS_PATH', 'credentials.json'),
+        scopes=['https://www.googleapis.com/auth/spreadsheets']
+    )
+
 def handler(event, context):
     """
     Netlify function handler for adding manual leads.
@@ -62,10 +76,7 @@ def handler(event, context):
             }
 
         # Connect to Google Sheets
-        creds = Credentials.from_service_account_file(
-            os.environ.get('GOOGLE_SHEETS_CREDENTIALS_PATH', 'credentials.json'),
-            scopes=['https://www.googleapis.com/auth/spreadsheets']
-        )
+        creds = load_google_credentials()
         client = gspread.authorize(creds)
         spreadsheet = client.open_by_key(os.environ['GOOGLE_SHEETS_SPREADSHEET_ID'])
         worksheet = spreadsheet.worksheet(os.environ.get('GOOGLE_SHEETS_WORKSHEET_NAME', 'Leads'))

@@ -10,7 +10,6 @@ from email.mime.multipart import MIMEMultipart
 from typing import Dict, Any, TypedDict, Optional
 from datetime import datetime
 import gspread
-from google.oauth2.service_account import Credentials
 from backend.config import config
 
 logger = logging.getLogger(__name__)
@@ -153,10 +152,7 @@ class EmailSender:
         """Get or create Google Sheets worksheet connection."""
         if self._worksheet is None:
             try:
-                creds = Credentials.from_service_account_file(
-                    config.GOOGLE_SHEETS_CREDENTIALS_PATH,
-                    scopes=['https://www.googleapis.com/auth/spreadsheets']
-                )
+                creds = config.get_google_credentials()
                 self._sheets_client = gspread.authorize(creds)
                 spreadsheet = self._sheets_client.open_by_key(config.GOOGLE_SHEETS_SPREADSHEET_ID)
                 self._worksheet = spreadsheet.worksheet(config.GOOGLE_SHEETS_WORKSHEET_NAME)

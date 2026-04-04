@@ -3,8 +3,10 @@ Configuration management for Hack United Sponsorship Outreach System.
 Loads environment variables and provides typed configuration.
 """
 import os
+import json
 from typing import Optional
 from dotenv import load_dotenv
+from google.oauth2.service_account import Credentials
 
 # Load environment variables from .env file
 load_dotenv()
@@ -19,6 +21,7 @@ class Config:
 
     # Google Sheets Configuration
     GOOGLE_SHEETS_CREDENTIALS_PATH: str = os.getenv("GOOGLE_SHEETS_CREDENTIALS_PATH", "credentials.json")
+    GOOGLE_SHEETS_CREDENTIALS_JSON: str = os.getenv("GOOGLE_SHEETS_CREDENTIALS_JSON", "")
     GOOGLE_SHEETS_SPREADSHEET_ID: str = os.getenv("GOOGLE_SHEETS_SPREADSHEET_ID", "")
     GOOGLE_SHEETS_WORKSHEET_NAME: str = os.getenv("GOOGLE_SHEETS_WORKSHEET_NAME", "Leads")
 
@@ -46,6 +49,21 @@ class Config:
         missing = [var for var in required_vars if not getattr(cls, var)]
         if missing:
             raise ValueError(f"Missing required environment variables: {', '.join(missing)}")
+
+    @classmethod
+    def get_google_credentials(cls) -> Credentials:
+        """Load Google Sheets service account credentials from JSON env or file path."""
+        if cls.GOOGLE_SHEETS_CREDENTIALS_JSON:
+            credentials_info = json.loads(cls.GOOGLE_SHEETS_CREDENTIALS_JSON)
+            return Credentials.from_service_account_info(
+                credentials_info,
+                scopes=["https://www.googleapis.com/auth/spreadsheets"]
+            )
+
+        return Credentials.from_service_account_file(
+            cls.GOOGLE_SHEETS_CREDENTIALS_PATH,
+            scopes=["https://www.googleapis.com/auth/spreadsheets"]
+        )
 
 # Global config instance
 config = Config()
