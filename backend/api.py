@@ -65,8 +65,12 @@ async def startup_event():
     try:
         app.coordinator = SponsorshipOutreachCoordinator()
         logger.info("✓ Coordinator initialized successfully")
+        logger.info(f"Coordinator type: {type(app.coordinator)}")
     except Exception as e:
         logger.error(f"✗ Failed to initialize coordinator: {str(e)}")
+        logger.error(f"Exception type: {type(e)}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise
 
 @app.get("/")
@@ -78,10 +82,14 @@ async def root():
         "status": "running"
     }
 
-@app.get("/health")
-async def health_check():
-    """Health check endpoint."""
-    return {"status": "healthy"}
+@app.get("/debug/coordinator")
+async def debug_coordinator():
+    """Debug endpoint to check coordinator status."""
+    return {
+        "coordinator_exists": hasattr(app, 'coordinator'),
+        "coordinator_type": type(app.coordinator).__name__ if hasattr(app, 'coordinator') else None,
+        "coordinator_is_none": app.coordinator is None if hasattr(app, 'coordinator') else True
+    }
 
 # Helper function to get Google Sheets worksheet
 def get_worksheet():
