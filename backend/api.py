@@ -278,6 +278,13 @@ async def add_lead(lead_data: dict):
 async def run_campaign(campaign_data: dict):
     """Run the sponsorship outreach campaign."""
     try:
+        # Check if coordinator is initialized
+        if not hasattr(app, 'coordinator') or app.coordinator is None:
+            return {
+                "success": False,
+                "error": "Coordinator not initialized"
+            }
+        
         urls = campaign_data.get('urls', [])
         
         if not urls:
