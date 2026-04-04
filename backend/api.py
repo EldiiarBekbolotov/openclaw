@@ -289,11 +289,8 @@ async def run_campaign(campaign_data: dict):
         logger.info(f"Starting campaign with {len(urls)} URLs")
         logger.info(f"URLs: {urls}")
         
-        # Run the campaign
-        result = await asyncio.to_thread(
-            app.coordinator.run_outreach_campaign, 
-            urls
-        )
+        # Run the campaign directly (it's already async)
+        result = await app.coordinator.run_outreach_campaign(urls)
         
         logger.info("Campaign completed successfully")
         
