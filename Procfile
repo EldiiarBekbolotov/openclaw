@@ -1,0 +1,1 @@
+worker: python backend/main.py --run-pipeline
