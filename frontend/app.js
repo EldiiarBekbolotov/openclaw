@@ -64,12 +64,14 @@ function setupEventListeners() {
 
 async function loadStats() {
   try {
+    console.log("Loading stats from:", `${API_BASE}/api/get_campaign_stats`);
     const response = await fetch(`${API_BASE}/api/get_campaign_stats`);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
 
     const data = await response.json();
+    console.log("Stats data:", data);
 
     // Update stats display
     elements.totalLeads.textContent = data.total_leads || 0;
@@ -103,12 +105,15 @@ async function loadLeads(statusFilter = "") {
     }
     params.append("limit", "50"); // Load up to 50 leads
 
-    const response = await fetch(`${API_BASE}/api/get_leads?${params}`);
+    const url = `${API_BASE}/api/get_leads?${params}`;
+    console.log("Loading leads from:", url);
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
 
     const data = await response.json();
+    console.log(`Loaded ${data.leads?.length || 0} leads:`, data);
 
     // Clear loading state
     elements.leadsTbody.innerHTML = "";
@@ -201,13 +206,16 @@ async function handleAddLead(event) {
     return;
   }
 
+  // Get submit button outside try block so it's available in finally
+  const submitBtn = event.target.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+
   try {
     // Show loading state
-    const submitBtn = event.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
     submitBtn.textContent = "Adding...";
     submitBtn.disabled = true;
 
+    console.log("Sending lead data:", leadData);
     const response = await fetch(`${API_BASE}/api/add_lead`, {
       method: "POST",
       headers: {
@@ -217,6 +225,7 @@ async function handleAddLead(event) {
     });
 
     const result = await response.json();
+    console.log(`API Response (${response.status}):`, result);
 
     if (response.ok) {
       showFormMessage("Lead added successfully!", "success");
@@ -225,15 +234,17 @@ async function handleAddLead(event) {
       loadStats(); // Refresh stats
       addActivityItem(`Added lead: ${leadData.company}`, "success");
     } else {
-      showFormMessage(result.error || "Failed to add lead", "error");
+      const errorMsg = result.error || result.message || `Server error (${response.status})`;
+      showFormMessage(errorMsg, "error");
+      addActivityItem(`Failed to add lead: ${errorMsg}`, "error");
     }
   } catch (error) {
-    console.error("Error adding lead:", error);
-    showFormMessage("Network error. Please try again.", "error");
-    addActivityItem(`Failed to add lead: ${error.message}`, "error");
+    console.error("Network error:", error);
+    const errorMsg = `Network error: ${error.message}`;
+    showFormMessage(errorMsg, "error");
+    addActivityItem(errorMsg, "error");
   } finally {
     // Reset button state
-    const submitBtn = event.target.querySelector('button[type="submit"]');
     submitBtn.textContent = originalText;
     submitBtn.disabled = false;
   }
