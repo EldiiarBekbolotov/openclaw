@@ -4,7 +4,7 @@
  */
 
 // API base URL - Railway backend for production, localhost for development
-const RAILWAY_API_BASE = "https://authentic-peace.up.railway.app";
+const RAILWAY_API_BASE = "https://openclaw-production-17905.up.railway.app";
 const API_BASE =
   window.location.hostname === "localhost"
     ? "http://localhost:8000"
