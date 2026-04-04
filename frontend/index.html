@@ -60,11 +60,36 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea id="description" name="description" placeholder="Brief company description"></textarea>
+                        <textarea id="description" name="description"
+                            placeholder="Brief company description"></textarea>
                     </div>
                     <button type="submit" class="btn-primary">Add Lead</button>
                 </form>
                 <div id="form-message"></div>
+            </section>
+
+            <!-- Campaign Execution -->
+            <section class="campaign-section">
+                <h2>Run Campaign</h2>
+                <form id="campaign-form">
+                    <div class="form-group">
+                        <label for="campaign-urls">Hackathon URLs (one per line)</label>
+                        <textarea id="campaign-urls" name="campaign-urls" 
+                            placeholder="https://hackathon1.com&#10;https://hackathon2.com&#10;https://hackathon3.com"
+                            rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" id="start-campaign-btn">Start Campaign</button>
+                </form>
+                <div id="campaign-message"></div>
+                
+                <!-- Campaign Progress -->
+                <div id="campaign-progress-container" style="display: none; margin-top: 20px;">
+                    <h3>Campaign Progress</h3>
+                    <div id="campaign-status" style="margin-bottom: 10px;"></div>
+                    <div id="campaign-logs" class="campaign-logs">
+                        <div class="log-item">Waiting for logs...</div>
+                    </div>
+                </div>
             </section>
 
             <!-- Leads List -->

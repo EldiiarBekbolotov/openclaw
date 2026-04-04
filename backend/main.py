@@ -124,7 +124,7 @@ class SponsorshipOutreachCoordinator:
         try:
             logger.info(f"Starting outreach campaign for {len(hackathon_urls)} hackathons")
 
-            # Initialize state
+            # Initialize state with URLs
             initial_state = AgentState(
                 leads=[],
                 scored_leads=[],
@@ -133,6 +133,9 @@ class SponsorshipOutreachCoordinator:
                 current_step="initializing",
                 error=None
             )
+            
+            # Store URLs in coordinator for use in nodes
+            self.campaign_urls = hackathon_urls
 
             # Run the workflow
             final_state = await self.workflow.ainvoke(initial_state)
@@ -155,17 +158,19 @@ class SponsorshipOutreachCoordinator:
     def _scrape_leads_node(self, state: AgentState) -> AgentState:
         """Node function for scraping leads from hackathon websites."""
         try:
-            # For now, we'll use a hardcoded list of hackathon URLs
-            # In production, this could be passed as a parameter
-            hackathon_urls = [
-                "https://mlh.io",  # Example - replace with actual hackathons
+            # Use URLs from campaign parameters
+            hackathon_urls = getattr(self, 'campaign_urls', [
+                "https://mlh.io",
                 "https://hackathons.hackclub.com"
-            ]
-
+            ])
+            
+            logger.info(f"Scraping {len(hackathon_urls)} hackathon websites...")
             all_leads = []
             for url in hackathon_urls:
+                logger.info(f"Scraping: {url}")
                 leads = self.scraper.scrape_hackathon_sponsors(url)
                 all_leads.extend(leads)
+                logger.info(f"Found {len(leads)} leads from {url}")
 
             state["leads"] = all_leads
             state["current_step"] = "leads_scraped"
