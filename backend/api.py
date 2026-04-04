@@ -47,9 +47,14 @@ app = FastAPI(
 # Add CORS middleware for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:8000",  # Local development
+        "http://localhost:3000",  # Alternative local port
+        "https://sponsorshackunited.netlify.app",  # Production frontend
+        "*"  # Allow all for development/testing
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
