@@ -27,7 +27,9 @@ const elements = {
   campaignUrls: document.getElementById("campaign-urls"),
   startCampaignBtn: document.getElementById("start-campaign-btn"),
   campaignMessage: document.getElementById("campaign-message"),
-  campaignProgressContainer: document.getElementById("campaign-progress-container"),
+  campaignProgressContainer: document.getElementById(
+    "campaign-progress-container",
+  ),
   campaignStatus: document.getElementById("campaign-status"),
   campaignLogs: document.getElementById("campaign-logs"),
 
@@ -325,7 +327,10 @@ async function handleCampaignSubmit(event) {
     submitBtn.textContent = "Starting Campaign...";
     submitBtn.disabled = true;
 
-    showCampaignMessage(`Starting campaign with ${urls.length} URL(s)...`, "info");
+    showCampaignMessage(
+      `Starting campaign with ${urls.length} URL(s)...`,
+      "info",
+    );
     addActivityItem(`Starting campaign with ${urls.length} URL(s)`, "success");
 
     // Show progress container
@@ -363,7 +368,8 @@ async function handleCampaignSubmit(event) {
       // Clear the URL input
       elements.campaignUrls.value = "";
     } else {
-      const errorMsg = result.error || result.message || `Server error (${response.status})`;
+      const errorMsg =
+        result.error || result.message || `Server error (${response.status})`;
       showCampaignMessage(errorMsg, "error");
       addLogItem(`Campaign failed: ${errorMsg}`, "error");
       addActivityItem(`Campaign failed: ${errorMsg}`, "error");
@@ -414,7 +420,10 @@ function connectToCampaignLogs() {
           logMessage.includes("✓")
         ) {
           logType = "success";
-        } else if (logMessage.includes("WARNING") || logMessage.includes("warning")) {
+        } else if (
+          logMessage.includes("WARNING") ||
+          logMessage.includes("warning")
+        ) {
           logType = "warning";
         }
 
